@@ -2,12 +2,15 @@ import { useEffect, useState } from "react";
 import MetamaskButton from "./components/MetamaskButton";
 import Erc20Connect from "./components/Erc20Connect";
 import Balance from "./components/Balance";
+import { parseEther } from "ethers";
+import Transfer from "./components/Transfer";
 
 const App = () => {
   const [signer, setSigner] = useState();
   const [contract, setContract] = useState();
   const [name, setName] = useState();
   const [symbol, setSymbol] = useState();
+  const [balance, setBalance] = useState(null);
 
   const getNameSymbol = async () => {
     try {
@@ -40,7 +43,18 @@ const App = () => {
             signer={signer}
             setContract={setContract}
           />
-          {name && <Balance name={name} symbol={symbol} contract={contract} />}
+          {name && (
+            <>
+              <Balance
+                name={name}
+                symbol={symbol}
+                contract={contract}
+                balance={balance}
+                setBalance={setBalance}
+              />
+              <Transfer name={name} symbol={symbol} contract={contract} />
+            </>
+          )}
         </div>
       )}
     </div>
